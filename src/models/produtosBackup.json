@@ -1,0 +1,10 @@
+{
+    "data": [
+        {
+            "category": "Limpeza",
+            "valor": 20,
+            "inventory": 10,
+            "id": 1
+        }
+    ]
+}
