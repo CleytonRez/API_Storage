@@ -1,5 +1,5 @@
 import { request, response } from "express";
-import { createProdutos, deleteProdutos, readProdutos, updateProdutos } from "../services/jsonServices";
+import { createProdutos, deleteProdutos, readProdutos, updateProdutos } from "../services/productServices";
 
 export default (app) => {
     if (app) {

@@ -1,17 +1,18 @@
 // Importa os pacotes usados.
 import fs from "fs";
 import util from "util";
-const path = "./src/models/produtos.json";
+const path = "./src/models/products.json";
+const pathClient = "./src/models/client.json"
 
 // Declarando as variaveis com as funcoes READ e WRITE.
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 // Funcao que le o objeto.
-export const readProdutos = async () => {
+export const readProducts = async () => {
     try {
 
-        // Variavel que contem o OBJ de produtos.json.
+        // Variavel que contem o OBJ de products.json.
         const file = await readFile(path, "utf8");
 
         // Converte JSON -> JS .
@@ -30,29 +31,29 @@ export const readProdutos = async () => {
     }
 }
 
-// Funcao que Cria Produtos - Passa novas informacoes para serem salvas. 
-export const createProdutos = async (produtoCreate) => {
+// Funcao que Cria Products - Passa novas informacoes para serem salvas. 
+export const createProducts = async (productCreate) => {
     try {
 
-        // Carregar o documento produto.json.
+        // Carregar o documento product.json.
         const file = await readFile(path, "utf8");
 
         // Fazer um Parse (Transforma o OBJ - JSON em JS) para objeto.
         const parseJSON = JSON.parse(file);
         const dataJSON = parseJSON;
 
-        // Adicionar produto na lista -  Cria ID aleatorio .
-        produtoCreate.id = Math.random();
-        console.log(produtoCreate);
+        // Adicionar product na lista -  Cria ID aleatorio .
+        productCreate.id = Math.random();
+        console.log(productCreate);
 
         // Adicionou as informaçoes no JSON
-        dataJSON.data.push(produtoCreate);
+        dataJSON.data.push(productCreate);
 
         // Fazer o .Stringify do objeto.
         const jsonStringify = JSON.stringify(dataJSON)
         console.log(jsonStringify);
 
-        // Subescrever o arquivo produto.json.
+        // Subescrever o arquivo product.json.
         writeFile(path, jsonStringify)
     } catch (e) {
         console.log(e)
@@ -60,9 +61,9 @@ export const createProdutos = async (produtoCreate) => {
 }
 
 // Recebe um OBJ com os novos dados, encontra-lo no JSON e atualizar as informacoes.
-export const updateProdutos = async (produtoUpdate) => {
+export const updateProducts = async (productUpdate) => {
     try {
-        // Carregar o documento produto.json.
+        // Carregar o documento product.json.
         const file = await readFile(path, "utf8");
 
         // Fazer um Parse (Transforma o OBJ - JSON em JS) para objeto.
@@ -70,21 +71,21 @@ export const updateProdutos = async (produtoUpdate) => {
         const dataJSON = parseJSON;
 
         // Variavel que cria nova lista.
-        const newListProdutos = dataJSON.data.map((produto) => {
-            // buscar o produto pelo ID .map quando achar, retorna aquele produto com os valores substituidos.
-            if (produto.id === produtoUpdate.id) {
+        const newListProducts = dataJSON.data.map((product) => {
+            // buscar o product pelo ID .map quando achar, retorna aquele product com os valores substituidos.
+            if (product.id === productUpdate.id) {
 
                 // Se id for igual add a lista Object.assign
-                return Object.assign({}, produto, produtoUpdate)
+                return Object.assign({}, product, productUpdate)
             }
-            return produto;
+            return product;
         });
 
-        console.log(newListProdutos)
+        console.log(newListProducts)
         // Fazer o .Stringfy do objeto.
         const jsonStringify = JSON.stringify(
             {
-                data: newListProdutos
+                data: newListProducts
             }
         )
         console.log(jsonStringify);
@@ -92,38 +93,38 @@ export const updateProdutos = async (produtoUpdate) => {
         writeFile(path, jsonStringify)
 
         //return id
-        return produtoUpdate.id
+        return productUpdate.id
 
     } catch (e) {
         console.log(e)
     }
 }
 
-// Funcao que Deleta um Produto e suas INF pelo ID.
-export const deleteProdutos = async (produtoDelete) => {
+// Funcao que Deleta um Product e suas INF pelo ID.
+export const deleteProducts = async (productDelete) => {
     try {
-        // Carregar o documento produto.json.
+        // Carregar o documento product.json.
         const file = await readFile(path, "utf8");
 
         const parseJSON = JSON.parse(file);
         const dataJSON = parseJSON;
 
         // Cria uma newList vazia.
-        const newListProdutos = []
+        const newListProducts = []
 
-        // buscar o produto pelo ID .forEach quando achar, cria um if e se for diferente ele adiciona na lista .
-        dataJSON.data.forEach((produto) => {
+        // buscar o product pelo ID .forEach quando achar, cria um if e se for diferente ele adiciona na lista .
+        dataJSON.data.forEach((product) => {
 
             // Se id for diferente add na newList
-            if (produto.id !== produtoDelete)
-                newListProdutos.push(produto)
+            if (product.id !== productDelete)
+                newListProducts.push(product)
         });
-        console.log(newListProdutos)
+        console.log(newListProducts)
 
         // Fazer o .Stringfy do objeto.
         const jsonStringify = JSON.stringify(
             {
-                data: newListProdutos
+                data: newListProducts
             }
         )
         console.log(jsonStringify);
@@ -132,12 +133,13 @@ export const deleteProdutos = async (produtoDelete) => {
         writeFile(path, jsonStringify)
 
         // Retorna o ID.
-        return produtoDelete.id;
+        return productDelete.id;
 
     } catch (e) {
         console.log(e)
     }
 }
+
 
 
 
