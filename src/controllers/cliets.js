@@ -1,38 +1,38 @@
 import { request, response } from "express";
-import { createProducts, deleteProducts, readProducts, updateProducts } from "../services/productServices";
+import { createClient, deleteClient, readClient, updateClient } from "../services/clientServices";
 
 export default (app) => {
     if (app) {
-        app.get("/products", async (request, response) => {
+        app.get("/client", async (request, response) => {
             const data = {
-                // Resposta que inicia funcao "readProducts".
+                // Resposta que inicia funcao "readclient".
 
-                response: await readProducts()
+                response: await readClient()
             }
             // Retorna as informacoes para o usuario.
             response.json(data);
         })
 
         // Funcao que cria novas informacoes para o Objeto.
-        app.post("/products", async (request, response) => {
+        app.post("/client", async (request, response) => {
 
             // Obtem dados do body.
             const body = request.body
 
-            // Variavel que inicia funcao de criacao de Products.
-            const idCreateProduct = createProducts(body);
+            // Variavel que inicia funcao de criacao de client.
+            const idCreateClient = createClient(body);
 
             // Retornar 201 como status e ...
             response.status(201).json(
                 {
                     // ... Seta as informacoes da funcao.
-                    response: idCreateProduct
+                    response: idCreateClient
                 }
             )
         })
 
         // Funcao que Altera/Update das informacoes no Objeto.
-        app.put("/products/:id", async (request, response) => {
+        app.put("/client/:id", async (request, response) => {
             // Obtem dados do body.
             const body = request.body
 
@@ -42,30 +42,30 @@ export default (app) => {
             // Converte a String para Number.
             body.id = Number(id)
 
-            // Chama funcao de Update "updateProduct"
-            const idUpdateProduct = await updateProducts(body);
+            // Chama funcao de Update "updateclient"
+            const idUpdateClient = await updateClient(body);
             // Retornar 201 como status e ...
             response.status(201).json(
                 {
                     // ... Seta as informacoes da funcao.
-                    response: idUpdateProduct
+                    response: idUpdateClient
                 }
             )
 
         })
-        // Funcao que Deleta algum (Product) conjunto de informacoes no Objeto.
-        app.delete("/products/:id", async (request, response) => {
+        // Funcao que Deleta algum (client) conjunto de informacoes no Objeto.
+        app.delete("/client/:id", async (request, response) => {
 
             // Variavel que pega e converte o ID do parametro para NUMBER.
             const id = Number(request.params.id)
 
-            // Variavel que inicia a funcao "deleteProduct".
-            const idDeleteProduct = await deleteProducts(id);
+            // Variavel que inicia a funcao "deleteclient".
+            const idDeleteClient = await deleteClient(id);
             // Retornar 201 como status e ...
             response.status(201).json(
                 {
                     // ... Seta as informacoes da funcao.
-                    response: idDeleteProduct
+                    response: idDeleteClient
                 }
             )
         })

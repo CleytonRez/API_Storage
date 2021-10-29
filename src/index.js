@@ -1,12 +1,19 @@
+// -------------------------------------- Imports ------------------------------------- //
 import express from "express"
 import { readProducts, createProducts, updateProducts, deleteProducts } from "./services/productServices"
 import { readClient, createClient, updateClient, deleteClient } from "./services/clientServices";
 import productsController from "./controllers/products";
 
+// -------------------------------------- Activate Functions ------------------------------------- //
+
 const app = express();
 app.use(express.json());
 
 //productsController(app);
+
+// -------------------------------------- Product ------------------------------------ //
+
+//readProduct()
 
 // createProducts(
 //     {
@@ -28,7 +35,7 @@ app.use(express.json());
 //     "id": 1
 // })
 
-
+// -------------------------------------- Client ------------------------------------- //
 
 //readClient()
 
@@ -46,9 +53,11 @@ app.use(express.json());
 //     }
 // )
 
-deleteClient({
-    "produtos": 1
-})
+// deleteClient({
+//     "produtos": 1
+// })
 
+
+// -------------------------------------- Listen ------------------------------------- //
 app.listen(3000)
 
