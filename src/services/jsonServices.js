@@ -30,11 +30,11 @@ export const readProdutos = async () => {
     }
 }
 
-// Funcao que Cria Pokemons - Passa novas informacoes para serem salvas. 
+// Funcao que Cria Produtos - Passa novas informacoes para serem salvas. 
 export const createProdutos = async (produtoCreate) => {
     try {
 
-        // Carregar o documento pokemon.json.
+        // Carregar o documento produto.json.
         const file = await readFile(path, "utf8");
 
         // Fazer um Parse (Transforma o OBJ - JSON em JS) para objeto.
@@ -52,7 +52,7 @@ export const createProdutos = async (produtoCreate) => {
         const jsonStringify = JSON.stringify(dataJSON)
         console.log(jsonStringify);
 
-        // Subescrever o arquivo pokemon.json.
+        // Subescrever o arquivo produto.json.
         writeFile(path, jsonStringify)
     } catch (e) {
         console.log(e)
@@ -62,7 +62,7 @@ export const createProdutos = async (produtoCreate) => {
 // Recebe um OBJ com os novos dados, encontra-lo no JSON e atualizar as informacoes.
 export const updateProdutos = async (produtoUpdate) => {
     try {
-        // Carregar o documento pokemon.json.
+        // Carregar o documento produto.json.
         const file = await readFile(path, "utf8");
 
         // Fazer um Parse (Transforma o OBJ - JSON em JS) para objeto.
@@ -71,7 +71,7 @@ export const updateProdutos = async (produtoUpdate) => {
 
         // Variavel que cria nova lista.
         const newListProdutos = dataJSON.data.map((produto) => {
-            // buscar o pokemon pelo ID .map quando achar, retorna aquele pokemon com os valores substituidos.
+            // buscar o produto pelo ID .map quando achar, retorna aquele produto com os valores substituidos.
             if (produto.id === produtoUpdate.id) {
 
                 // Se id for igual add a lista Object.assign
@@ -99,10 +99,10 @@ export const updateProdutos = async (produtoUpdate) => {
     }
 }
 
-// Funcao que Deleta um Pokemon e suas INF pelo ID.
+// Funcao que Deleta um Produto e suas INF pelo ID.
 export const deleteProdutos = async (produtoDelete) => {
     try {
-        // Carregar o documento pokemon.json.
+        // Carregar o documento produto.json.
         const file = await readFile(path, "utf8");
 
         const parseJSON = JSON.parse(file);
@@ -111,11 +111,11 @@ export const deleteProdutos = async (produtoDelete) => {
         // Cria uma newList vazia.
         const newListProdutos = []
 
-        // buscar o pokemon pelo ID .forEach quando achar, cria um if e se for diferente ele adiciona na lista .
+        // buscar o produto pelo ID .forEach quando achar, cria um if e se for diferente ele adiciona na lista .
         dataJSON.data.forEach((produto) => {
 
             // Se id for diferente add na newList
-            if (!produto.id === produtoDelete.id)
+            if (produto.id !== produtoDelete)
                 newListProdutos.push(produto)
         });
         console.log(newListProdutos)
