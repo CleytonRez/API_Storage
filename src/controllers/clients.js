@@ -18,18 +18,23 @@ export default (app) => {
 
             // Obtem dados do body.
             const body = request.body
+            try {
+                // Variavel que inicia funcao de criacao de client.
+                const idCreateClient = await createClient(body);
 
-            // Variavel que inicia funcao de criacao de client.
-            const idCreateClient = createClient(body);
+                // Retornar 201 como status e ...
+                response.status(201).json(
+                    {
+                        // ... Seta as informacoes da funcao.
+                        response: idCreateClient
+                    }
+                )
 
-            // Retornar 201 como status e ...
-            response.status(201).json(
-                {
-                    // ... Seta as informacoes da funcao.
-                    response: idCreateClient
-                }
-            )
-        })
+            } catch (e) {
+                console.log(e)
+                response.status(500).send(e.message)
+            };
+        });
 
         // Funcao que Altera/Update das informacoes no Objeto.
         app.put("/client/:id", async (request, response) => {
@@ -42,17 +47,23 @@ export default (app) => {
             // Converte a String para Number.
             body.id = Number(id)
 
-            // Chama funcao de Update "updateclient"
-            const idUpdateClient = await updateClient(body);
-            // Retornar 201 como status e ...
-            response.status(201).json(
-                {
-                    // ... Seta as informacoes da funcao.
-                    response: idUpdateClient
-                }
-            )
+            try {
+                // Chama funcao de Update "updateclient"
+                const idUpdateClient = await updateClient(body);
+                // Retornar 201 como status e ...
+                response.status(201).json(
+                    {
+                        // ... Seta as informacoes da funcao.
+                        response: idUpdateClient
+                    }
+                )
+            } catch (e) {
+                console.log(e)
+                response.status(500).send(e.message)
+            };
 
-        })
+        });
+
         // Funcao que Deleta algum (client) conjunto de informacoes no Objeto.
         app.delete("/client/:id", async (request, response) => {
 

@@ -3,13 +3,15 @@ import express from "express"
 import { readProducts, createProducts, updateProducts, deleteProducts } from "./services/productServices"
 import { readClient, createClient, updateClient, deleteClient } from "./services/clientServices";
 import productsController from "./controllers/products";
+import clientsController from "./controllers/clients";
 
 // -------------------------------------- Activate Functions ------------------------------------- //
 
 const app = express();
 app.use(express.json());
 
-//productsController(app);
+productsController(app);
+clientsController(app);
 
 // -------------------------------------- Product ------------------------------------ //
 

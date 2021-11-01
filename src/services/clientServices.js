@@ -2,6 +2,7 @@
 import fs from "fs";
 import util from "util";
 const pathClient = "./src/models/client.json"
+const pathProduct = "./src/models/products.json"
 
 // Declarando as variaveis com as funcoes READ e WRITE.
 const readFile = util.promisify(fs.readFile);
@@ -29,29 +30,54 @@ export const readClient = async () => {
     }
 }
 
-// Funcao que Cria Produtos - Passa novas informacoes para serem salvas. 
+// Funcao que Cria Cliente - Passa novas informacoes para serem salvas. 
 export const createClient = async (clientCreate) => {
+    try {
+        // Carregar o documento clients.json.
+        const file = await readFile(pathClient, "utf8");
+        const fileProduct = await readFile(pathProduct, "utf-8");
 
-    // Carregar o documento produto.json.
-    const file = await readFile(pathClient, "utf8");
+        // Fazer um Parse (Transforma o OBJ - JSON em JS) para objeto.
+        const dataJSON = JSON.parse(file)
+        const dataProductsJSON = JSON.parse(fileProduct);
 
-    // Fazer um Parse (Transforma o OBJ - JSON em JS) para objeto.
-    const dataJSON = JSON.parse(file)
+        const newDate = new Date(clientCreate.birthDate);
 
-    // Adicionar produto na lista -  Cria ID aleatorio .
-    clientCreate.id = Math.random()
-    console.log(clientCreate)
+        clientCreate.products.forEach((productClient) => {
+            const idProduct = dataProductsJSON.data.find((product) => {
+                console.log(product)
+                console.log(productClient)
+                return product.id === productClient.id;
+            })
 
-    // Adicionou as informaçoes no JSON
-    dataJSON.data.push(clientCreate);
+            if (!idProduct) {
+                throw new Error("ID do Produto não existente.")
+            }
+        })
 
-    // Fazer o .Stringify do objeto.
-    const jsonStringify = JSON.stringify(dataJSON)
-    console.log(jsonStringify)
+        // Adicionar cliente na lista -  Cria ID aleatorio .
+        clientCreate.id = Math.random()
+        console.log(clientCreate)
+
+        clientCreate.birthDate = newDate
 
 
-    // Subescrever o arquivo produto.json.
-    writeFile(pathClient, jsonStringify)
+        // Adicionou as informaçoes no JSON
+        dataJSON.data.push(clientCreate);
+
+        // Fazer o .Stringify do objeto.
+        const jsonStringify = JSON.stringify(dataJSON)
+        console.log(jsonStringify)
+
+
+        // Subescrever o arquivo clients.json.
+        writeFile(pathClient, jsonStringify)
+
+    } catch (e) {
+        console.log(e)
+        throw e
+    }
+
 }
 
 export const updateClient = async (clientUpdate) => {
@@ -59,10 +85,25 @@ export const updateClient = async (clientUpdate) => {
 
         // Carregar o documento produto.json.
         const file = await readFile(pathClient, "utf8");
+        const fileProduct = await readFile(pathProduct, "utf-8");
         console.log(file)
 
         // Fazer um Parse (Transforma o OBJ - JSON em JS) para objeto.
         const dataJSON = JSON.parse(file)
+        const dataProductsJSON = JSON.parse(fileProduct);
+
+        clientUpdate.products.forEach((productClient) => {
+            const idProduct = dataProductsJSON.data.find((product) => {
+                console.log(product)
+                console.log(productClient)
+                return product.id === productClient.id;
+            })
+
+            if (!idProduct) {
+                throw new Error("ID do Produto não existente.")
+            }
+        })
+
 
         // Variavel que cria nova lista.
         const newClientList = dataJSON.data.map((client) => {
@@ -91,6 +132,7 @@ export const updateClient = async (clientUpdate) => {
 
     } catch (e) {
         console.log(e)
+        throw e
     }
 }
 
@@ -110,7 +152,7 @@ export const deleteClient = async (clientDelete) => {
         dataJSON.data.forEach((client) => {
 
             // Se id for diferente add na newList
-            if (client.id !== clientDelete.id)
+            if (client.id !== clientDelete)
                 newClientList.push(client)
         });
         console.log(newClientList)

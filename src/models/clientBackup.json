@@ -1,8 +1,36 @@
 {
     "data": [
         {
-            "produtos": 1,
-            "pagos": true
+            "nome": "José Cassio",
+            "birthDate": "2000-08-24T21:54:16.956Z",
+            "cpf": 10000,
+            "products": [
+                {
+                    "pago": false,
+                    "id": 0.4953005342570693
+                },
+                {
+                    "id": 1,
+                    "pago": true
+                }
+            ],
+            "id": 1
+        },
+        {
+            "nome": "Cleber",
+            "birthDate": "2000-03-25T21:54:16.956Z",
+            "cpf": 3245256622,
+            "products": [
+                {
+                    "pago": false,
+                    "id": 0.4953005342570693
+                },
+                {
+                    "id": 1,
+                    "pago": true
+                }
+            ],
+            "id": 0.29901743508801437
         }
     ]
 }
